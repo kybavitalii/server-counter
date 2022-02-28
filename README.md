@@ -1,31 +1,44 @@
-# server-counter
+# server-counter:
 
-# post('/registration')
+post('/registration')
 
-# post('/login')
+post('/login')
 
-# post('/addcounter')
+post('/addcounter')
 
-# get('/counters')
+get('/counters')
 
-# delete('/delcounter')
+delete('/delcounter')
 
-# registration {username, password}
+## registration:
 
-# login {username, password}
+{username, password}
 
-## it return token
+## login:
 
-# addcounter {username: string,
+{username, password}
+it return token
 
-## title: {type: String, require: true},
+## addcounter:
 
-## typeincome: {type: String, require: true},
+{username: string,
 
-## timestamp: {type: Number, require: true},
+title: {type: String, require: true},
 
-## income: {type: Number, require: true},
+typeincome: {type: String, require: true},
 
-## period: {type: Number, require: true},
+timestamp: {type: Number, require: true},
 
-## output: {type: Number, require: true}}
+income: {type: Number, require: true},
+
+period: {type: Number, require: true},
+
+output: {type: Number, require: true}}
+
+## delcounter:
+
+{ username, index, title }
+
+## counters:
+
+{ username }
