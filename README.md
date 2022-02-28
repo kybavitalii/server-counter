@@ -17,7 +17,9 @@ delete('/delcounter')
 ## login:
 
 {username, password}
-it return token
+it return \<token\>
+
+### In subsequent requests, add Headers: Autorization with value: Bearer \<token\>
 
 ## addcounter:
 
