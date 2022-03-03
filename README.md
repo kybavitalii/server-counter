@@ -41,6 +41,4 @@ output: {type: Number, require: true}}
 
 { username, index, title }
 
-## counters:
-
-{ username }
+## counters

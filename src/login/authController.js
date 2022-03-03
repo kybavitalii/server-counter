@@ -21,6 +21,7 @@ class authController {
         return res.status(400).json({ message: 'Error registering', errors });
       }
       const { username, password } = req.body;
+      console.log(req.body);
       const candidate = await User.findOne({ username });
       if (candidate) {
         return res
