@@ -15,6 +15,7 @@ const generateAccessToken = (id, roles) => {
 
 class authController {
   async registration(req, res) {
+    console.log(req.body, req.headers);
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
