@@ -15,14 +15,15 @@ const generateAccessToken = (id, roles) => {
 
 class authController {
   async registration(req, res) {
-    console.log(req.body, req.headers);
+    console.log(req.body);
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: 'Error registering', errors });
       }
       const { username, password } = req.body;
-      console.log(req.body);
+
+      // console.log(req.body, username, password);
       const candidate = await User.findOne({ username });
       if (candidate) {
         return res
@@ -65,6 +66,7 @@ class authController {
         return res.status(400).json({ message: 'Password wrong' });
       }
       const token = generateAccessToken(user._id, user.roles);
+      const counters = user.counters;
       return res.json({ token });
     } catch (e) {
       console.log(e);
@@ -111,11 +113,54 @@ class authController {
   }
 
   async getCounters(req, res) {
+    // console.log(req.headers);
+    // console.log('Call getCounters');
     try {
-      const { username } = req.body;
+      const token = req.headers.authorization.split(' ')[1];
+      if (!token) {
+        return res.status(403).json({ message: 'The user is not authorized' });
+      }
+      const decodedData = jwt.verify(token, secret);
+
+      const id = decodedData.id;
+      const user = await User.findById(id);
+      // const user = await User.findOne({ _id: id });
+      // if(!user) return res.status(404).json({ message: 'The user not found' });
+      // console.log(user.counters);
+      return res.json(user.counters);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async refreshCounter(req, res) {
+    try {
+      const {
+        username,
+        index,
+        title,
+        typeincome,
+        timestamp,
+        income,
+        period,
+        output,
+      } = req.body;
+      const counter = new Counter({
+        title: `${title}`,
+        typeincome: `${typeincome}`,
+        timestamp: `${timestamp}`,
+        income: `${income}`,
+        period: `${period}`,
+        output: `${output}`,
+      });
       const user = await User.findOne({ username });
+      user.counters.splice(index, 1, counter);
+      await user.save();
       const counters = user.counters;
-      return res.json(counters);
+      return res.json({
+        counters,
+        message: `Counter ${title} was successfull refreshed`,
+      });
     } catch (e) {
       console.log(e);
     }

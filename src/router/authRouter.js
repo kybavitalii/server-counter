@@ -16,8 +16,9 @@ router.post(
   controller.registration
 );
 router.post('/login', controller.login);
-router.get('/counters', authMiddleware, controller.getCounters);
+router.get(`/counters`, authMiddleware, controller.getCounters);
 router.post('/addcounter', authMiddleware, controller.createCounter);
 router.delete('/delcounter', authMiddleware, controller.deleteCounter);
+router.patch('/refresh', authMiddleware, controller.refreshCounter);
 
 module.exports = router;
